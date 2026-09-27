@@ -1,0 +1,327 @@
+"use client";
+
+import { ArrowUp, Check, Search, X } from "lucide-react";
+import Link from "next/link";
+import { useCallback, useDeferredValue, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { TWITCH_URL, locales, type Dictionary, type Locale } from "@/lib/i18n";
+import {
+  clearSavedPosition,
+  peekSavedPosition,
+  rememberPosition,
+  restorePosition,
+} from "@/lib/lang-switch";
+import { LANG_STORAGE_KEY } from "@/lib/storage";
+import { TwitchIcon } from "./icons";
+
+/** Shared building blocks for every page of the wiki. */
+
+async function copyText(text: string) {
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch {
+    const el = document.createElement("textarea");
+    el.value = text;
+    el.style.position = "fixed";
+    el.style.opacity = "0";
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand("copy");
+    el.remove();
+  }
+}
+
+export type OnCopy = (text: string, message: string) => void;
+
+/** Copy to clipboard and show a toast. */
+export function useCopy() {
+  const [toast, setToast] = useState<{ id: number; message: string } | null>(null);
+
+  const onCopy = useCallback<OnCopy>((text, message) => {
+    void copyText(text);
+    setToast({ id: Date.now(), message });
+  }, []);
+
+  useEffect(() => {
+    if (!toast) return;
+    const timer = setTimeout(() => setToast(null), 2200);
+    return () => clearTimeout(timer);
+  }, [toast]);
+
+  return { toast, onCopy };
+}
+
+/**
+ * Search state that survives a language switch, together with the reader's
+ * scroll position. Also wires "/" and Ctrl+K to focus the search.
+ */
+export function usePageSearch(lang: Locale) {
+  const [saved] = useState(peekSavedPosition);
+  const pendingRestore = useRef(saved);
+  const [query, setQuery] = useState(saved?.query ?? "");
+  const deferredQuery = useDeferredValue(query);
+  const searchRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(LANG_STORAGE_KEY, lang);
+    } catch {}
+    clearSavedPosition();
+  }, [lang]);
+
+  // After a language switch, wait until the restored search has rendered, then scroll back.
+  useLayoutEffect(() => {
+    const pending = pendingRestore.current;
+    if (!pending || deferredQuery !== pending.query) return;
+    restorePosition(pending);
+    pendingRestore.current = null;
+  }, [deferredQuery]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const typing = e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement;
+      if ((e.key === "/" && !typing) || (e.key === "k" && (e.ctrlKey || e.metaKey))) {
+        e.preventDefault();
+        searchRef.current?.focus();
+        searchRef.current?.select();
+      } else if (e.key === "Escape" && e.target === searchRef.current) {
+        setQuery("");
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  return { query, setQuery, deferredQuery, searchRef };
+}
+
+export function Backdrop() {
+  return (
+    <>
+      <div className="stage" aria-hidden />
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[-1] h-[900px] overflow-hidden" aria-hidden>
+        <div className="stage-floor" />
+      </div>
+      <div className="scanlines" aria-hidden />
+    </>
+  );
+}
+
+/** `path` is the page within the locale, e.g. "" or "cheats/". */
+export function Header({
+  lang,
+  t,
+  query,
+  path = "",
+  subtitle,
+}: {
+  lang: Locale;
+  t: Dictionary;
+  query: string;
+  path?: string;
+  subtitle?: string;
+}) {
+  return (
+    <header className="glass sticky top-0 z-40 h-[var(--header-h)] border-b border-white/[0.06]">
+      <div className="mx-auto flex h-full max-w-7xl items-center gap-3 px-4 sm:px-6 lg:px-8">
+        <Link href={`/${lang}/`} className="flex min-w-0 items-center gap-3">
+          <span className="cut cut-sm grid size-9 shrink-0 place-items-center bg-gradient-to-br from-[#a970ff] to-[#ff4fa3] font-display text-lg font-bold text-white">
+            M
+          </span>
+          <span className="flex min-w-0 flex-col leading-tight">
+            <span className="truncate font-display text-base font-bold tracking-wider uppercase">
+              maikodoglas
+            </span>
+            <span className="hud-label truncate text-[0.6rem] text-white/40">{subtitle ?? t.badge}</span>
+          </span>
+        </Link>
+
+        <div className="ml-auto flex items-center gap-2">
+          <div
+            role="group"
+            aria-label={t.language}
+            className="cut cut-sm flex bg-white/[0.06] p-0.5 font-mono text-xs font-bold"
+          >
+            {locales.map((l) => (
+              <Link
+                key={l}
+                href={`/${l}/${path}`}
+                scroll={false}
+                onClick={() => rememberPosition(query)}
+                hrefLang={l === "pt" ? "pt-BR" : "en"}
+                aria-current={l === lang ? "page" : undefined}
+                className={`cut cut-sm px-3 py-1.5 transition-colors ${
+                  l === lang ? "bg-white text-black" : "text-white/55 hover:text-white"
+                }`}
+              >
+                {l === "pt" ? "PT" : "EN"}
+              </Link>
+            ))}
+          </div>
+          <a
+            href={TWITCH_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-neon cut inline-flex items-center gap-2 px-3 py-2 font-display text-sm font-bold tracking-wide text-white uppercase sm:px-4"
+          >
+            <TwitchIcon className="size-4" />
+            <span className="hidden sm:inline">{t.watchLive}</span>
+            <span className="sr-only sm:hidden">{t.watchLiveShort}</span>
+          </a>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+export function SearchBox({
+  t,
+  query,
+  setQuery,
+  inputRef,
+  placeholder = t.searchPlaceholder,
+}: {
+  t: Dictionary;
+  query: string;
+  setQuery: (q: string) => void;
+  inputRef: React.RefObject<HTMLInputElement | null>;
+  placeholder?: string;
+}) {
+  return (
+    <div className="mt-8 w-full max-w-xl drop-shadow-[0_0_20px_rgb(169_112_255/0.25)] focus-within:drop-shadow-[0_0_28px_rgb(169_112_255/0.55)]">
+      <div className="hud cut">
+        <div className="hud-inner cut relative flex items-center">
+          <Search className="pointer-events-none absolute left-4 size-5 text-[var(--accent)]" />
+          <input
+            ref={inputRef}
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={placeholder}
+            aria-label={t.searchLabel}
+            autoComplete="off"
+            spellCheck={false}
+            className="h-14 w-full bg-transparent pr-24 pl-12 font-mono text-[0.95rem] text-white placeholder:text-white/35 focus:outline-none [&::-webkit-search-cancel-button]:hidden"
+          />
+          <div className="absolute right-4 flex items-center gap-2">
+            {query ? (
+              <button
+                type="button"
+                onClick={() => {
+                  setQuery("");
+                  inputRef.current?.focus();
+                }}
+                className="hud-label inline-flex items-center gap-1 bg-white/10 px-2 py-1 text-white/80 transition hover:bg-white/15"
+              >
+                <X className="size-3.5" />
+                {t.clear}
+              </button>
+            ) : (
+              <kbd
+                title={t.shortcut}
+                className="hidden border border-white/15 bg-white/5 px-2 py-0.5 font-mono text-xs text-white/50 sm:block"
+              >
+                /
+              </kbd>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function Stat({ value, label }: { value: number; label: string }) {
+  return (
+    <div className="hud cut cut-sm">
+      <div className="hud-inner cut cut-sm px-3 py-2.5">
+        <div className="font-display text-2xl leading-none font-bold text-white sm:text-3xl">{value}</div>
+        <div className="hud-label mt-1.5 text-[0.6rem] text-white/45">{label}</div>
+      </div>
+    </div>
+  );
+}
+
+export function EmptyState({ t, onClear }: { t: Dictionary; onClear: () => void }) {
+  return (
+    <div className="brackets">
+      <div className="flex flex-col items-center border border-dashed border-white/10 px-6 py-16 text-center">
+        <p className="hud-label mb-3 text-[var(--accent)]">404</p>
+        <p className="font-display text-2xl font-bold uppercase">{t.noResults}</p>
+        <p className="mt-1 text-white/50">{t.noResultsHint}</p>
+        <button
+          type="button"
+          onClick={onClear}
+          className="btn-neon cut mt-6 px-6 py-2.5 font-display text-sm font-bold tracking-wide text-white uppercase"
+        >
+          {t.clear}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export function Footer({ t }: { t: Dictionary }) {
+  return (
+    <footer className="border-t border-white/[0.06] bg-black/30">
+      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-8 text-sm text-white/40 sm:flex-row sm:px-6 lg:px-8">
+        <p>
+          {t.footer} <span className="text-white/25">{t.footerNote}</span>
+        </p>
+        <a
+          href={TWITCH_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hud-label inline-flex items-center gap-2 transition hover:text-white"
+        >
+          <TwitchIcon className="size-4" />
+          twitch.tv/maikodoglas
+        </a>
+      </div>
+    </footer>
+  );
+}
+
+/** Floating back-to-top button plus the copy toast. */
+export function Overlays({ t, toast }: { t: Dictionary; toast: { id: number; message: string } | null }) {
+  const [showTop, setShowTop] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setShowTop(window.scrollY > 900);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <>
+      {showTop && (
+        <button
+          type="button"
+          onClick={() => window.scrollTo({ top: 0 })}
+          aria-label={t.backToTop}
+          title={t.backToTop}
+          className="btn-neon cut fixed right-4 bottom-4 z-40 grid size-11 place-items-center text-white sm:right-6 sm:bottom-6"
+        >
+          <ArrowUp className="size-5" />
+        </button>
+      )}
+
+      {toast && (
+        <div
+          key={toast.id}
+          role="status"
+          className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 drop-shadow-[0_0_24px_rgb(169_112_255/0.55)]"
+        >
+          <div className="toast hud cut">
+            <div className="hud-inner cut flex items-center gap-3 px-4 py-2.5">
+              <span className="grid size-7 place-items-center bg-[var(--accent)] text-black">
+                <Check className="size-4" strokeWidth={3} />
+              </span>
+              <span className="text-sm whitespace-nowrap text-white">{toast.message}</span>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}

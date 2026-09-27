@@ -11,7 +11,7 @@ export function rememberPosition(query: string) {
   const headerBottom = document.querySelector("header")?.getBoundingClientRect().bottom ?? 0;
   let anchor: HTMLElement | null = null;
   if (window.scrollY > 200) {
-    for (const el of document.querySelectorAll<HTMLElement>(".cmd-card, section h2[id]")) {
+    for (const el of document.querySelectorAll<HTMLElement>(".cmd-card, section h2[id], [data-anchor]")) {
       if (el.getBoundingClientRect().bottom > headerBottom + 80) {
         anchor = el;
         break;
