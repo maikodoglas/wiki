@@ -11,6 +11,8 @@ import {
   restorePosition,
 } from "@/lib/lang-switch";
 import { LANG_STORAGE_KEY } from "@/lib/storage";
+import { BackgroundRotator } from "./background-rotator";
+import { Capelinhas } from "./capelinhas";
 import { TwitchIcon } from "./icons";
 
 /** Shared building blocks for every page of the wiki. */
@@ -97,10 +99,12 @@ export function usePageSearch(lang: Locale) {
 export function Backdrop() {
   return (
     <>
+      <BackgroundRotator />
       <div className="stage" aria-hidden />
       <div className="pointer-events-none absolute inset-x-0 top-0 z-[-1] h-[900px] overflow-hidden" aria-hidden>
         <div className="stage-floor" />
       </div>
+      <Capelinhas />
       <div className="scanlines" aria-hidden />
     </>
   );
