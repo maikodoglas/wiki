@@ -1,6 +1,7 @@
 "use client";
 
-import { Check, Copy, Dices, Lock, Mic, RotateCcw, SkipForward } from "lucide-react";
+import { Ban, Check, Copy, Dices, Lock, Mic, RotateCcw, SkipForward } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   betyLines,
@@ -12,6 +13,7 @@ import {
 } from "@/lib/cheats";
 import { ui, type Dictionary, type Locale } from "@/lib/i18n";
 import { normalize } from "@/lib/search";
+import redeemImage from "@/public/redeemCheat.jpeg";
 import { Highlight } from "./highlight";
 import {
   Backdrop,
@@ -65,7 +67,7 @@ export function Cheats({ lang }: { lang: Locale }) {
     };
   }, [deferredQuery, lang, speaker]);
 
-  const copyCheat = (code: string) => onCopy(code, t.copiedCommand(code));
+  const copyCheat = (code: string) => onCopy(code, t.copiedCheat(code));
 
   const sections = [
     { id: "sons", title: t.soundTitle, count: sounds.length, color: accent.sounds, show: sounds.length > 0 },
@@ -116,6 +118,8 @@ export function Cheats({ lang }: { lang: Locale }) {
             <CheatConsole t={t} />
           </div>
         </section>
+
+        <RedeemGuide t={t} />
 
         {/* Section nav */}
         <nav
@@ -308,6 +312,50 @@ export function Cheats({ lang }: { lang: Locale }) {
   );
 }
 
+/** Cheats are redeemed through the "Cheat Code" channel points reward, not typed in chat. */
+function RedeemGuide({ t }: { t: Dictionary }) {
+  return (
+    <section aria-labelledby="redeem-title" className="mb-10 lg:mb-14" style={withAccent(accent.clone)}>
+      <div className="hud cut">
+        <div className="hud-inner cut grid items-center gap-6 p-5 sm:grid-cols-[auto_1fr] sm:gap-8 sm:p-6">
+          <div className="brackets mx-auto w-full max-w-[15rem] sm:w-56">
+            <Image
+              src={redeemImage}
+              alt={t.redeemAlt}
+              sizes="15rem"
+              className="cut w-full shadow-[0_0_40px_-8px_var(--accent)]"
+            />
+          </div>
+          <div className="min-w-0">
+            <div className="mb-4 flex flex-wrap items-center gap-3">
+              <h2
+                id="redeem-title"
+                className="font-display text-2xl leading-none font-bold tracking-wide uppercase sm:text-3xl"
+              >
+                {t.redeemTitle}
+              </h2>
+              <span className="hud-label inline-flex items-center gap-1.5 bg-[#ff4f6d]/15 px-2 py-1 text-[0.62rem] text-[#ff8198] ring-1 ring-[#ff4f6d]/35">
+                <Ban className="size-3.5" />
+                {t.redeemNotChat}
+              </span>
+            </div>
+            <ol className="flex flex-col gap-3">
+              {t.redeemSteps.map((step, i) => (
+                <li key={i} className="flex items-start gap-3.5">
+                  <span className="cut cut-sm grid size-8 shrink-0 place-items-center bg-[var(--accent)] font-display text-base font-bold text-black">
+                    {i + 1}
+                  </span>
+                  <span className="pt-1 text-pretty text-white/75">{step}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function SectionHeader({
   index,
   id,
@@ -366,7 +414,7 @@ function CloneAct({
   const copyLine = (i: number) => {
     const code = act[i].code;
     if (!code) return;
-    onCopy(code, t.copiedCommand(code));
+    onCopy(code, t.copiedCheat(code));
     setDone((prev) => new Set(prev).add(i));
   };
 
