@@ -56,6 +56,12 @@ export const ui = {
     footer: "Feito pela comunidade, para a comunidade.",
     footerNote: "Não afiliado à Twitch.",
     shortcut: "para buscar",
+    chatTitle: "Chat da live",
+    chatDemo: "exemplo",
+    chatInput: "Enviar uma mensagem",
+    statCommands: "Comandos",
+    statCategories: "Categorias",
+    statLanguages: "Idiomas",
   },
   en: {
     metaTitle: "Stream commands — maikodoglas",
@@ -100,6 +106,12 @@ export const ui = {
     footer: "Made by the community, for the community.",
     footerNote: "Not affiliated with Twitch.",
     shortcut: "to search",
+    chatTitle: "Stream chat",
+    chatDemo: "example",
+    chatInput: "Send a message",
+    statCommands: "Commands",
+    statCategories: "Categories",
+    statLanguages: "Languages",
   },
 } satisfies Record<Locale, Record<string, unknown>>;
 

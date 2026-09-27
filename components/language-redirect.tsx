@@ -26,12 +26,12 @@ export function LanguageRedirect() {
   return (
     <main className="grid min-h-dvh place-items-center p-6">
       <div className="flex flex-col items-center gap-6 text-center">
-        <div className="size-10 animate-spin rounded-full border-2 border-white/15 border-t-violet-400" />
+        <div className="size-10 animate-spin rounded-full border-2 border-white/15 border-t-[#a970ff]" />
         <div className="flex gap-3 text-sm">
-          <Link href="/pt/" className="chip">
+          <Link href="/pt/" className="chip cut cut-sm font-display font-semibold uppercase">
             Português
           </Link>
-          <Link href="/en/" className="chip">
+          <Link href="/en/" className="chip cut cut-sm font-display font-semibold uppercase">
             English
           </Link>
         </div>

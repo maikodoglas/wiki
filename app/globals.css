@@ -5,13 +5,16 @@
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
   --font-display: var(--font-display), var(--font-geist-sans), sans-serif;
 
-  --color-bg: #0b0914;
-  --color-surface: #13101f;
+  --color-bg: #07060d;
+  --color-surface: #100d1c;
   --color-twitch: #9146ff;
+  --color-neon: #a970ff;
 }
 
 :root {
   --header-h: 4rem;
+  --accent: #a970ff;
+  --cut: 14px;
   color-scheme: dark;
 }
 
@@ -35,6 +38,7 @@ html {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
 }
@@ -48,88 +52,218 @@ body {
 }
 
 ::selection {
-  background: rgb(145 70 255 / 0.45);
+  background: rgb(169 112 255 / 0.45);
 }
 
-/* Soft aurora behind the page */
-.aurora {
+/* ───────────── Background: neon glow + synthwave floor + scanlines ───────────── */
+
+.stage {
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
   overflow: hidden;
-}
-.aurora::before,
-.aurora::after {
-  content: "";
-  position: absolute;
-  border-radius: 9999px;
-  filter: blur(90px);
-  opacity: 0.55;
-}
-.aurora::before {
-  width: 42rem;
-  height: 42rem;
-  top: -18rem;
-  left: -10rem;
-  background: radial-gradient(circle, #7c3aed 0%, transparent 65%);
-  animation: drift 18s ease-in-out infinite alternate;
-}
-.aurora::after {
-  width: 36rem;
-  height: 36rem;
-  top: -12rem;
-  right: -12rem;
-  background: radial-gradient(circle, #db2777 0%, transparent 65%);
-  opacity: 0.35;
-  animation: drift 22s ease-in-out infinite alternate-reverse;
-}
-.grid-bg {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgb(255 255 255 / 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(255 255 255 / 0.035) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse 80% 55% at 50% 0%, black 30%, transparent 75%);
+  background:
+    radial-gradient(ellipse 60% 45% at 15% -5%, rgb(145 70 255 / 0.35), transparent 70%),
+    radial-gradient(ellipse 50% 40% at 90% 0%, rgb(255 79 163 / 0.18), transparent 70%);
 }
 
-@keyframes drift {
+.stage-floor {
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  left: -50%;
+  right: -50%;
+  top: 0;
+  height: 900px;
+  background-image:
+    linear-gradient(rgb(169 112 255 / 0.22) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(169 112 255 / 0.22) 1px, transparent 1px);
+  background-size: 56px 56px;
+  transform: perspective(520px) rotateX(58deg) translateY(-120px);
+  transform-origin: top center;
+  mask-image: linear-gradient(to bottom, transparent 5%, black 30%, transparent 75%);
+  opacity: 0.8;
+  animation: floor 3.5s linear infinite;
+}
+
+@keyframes floor {
   to {
-    transform: translate(6rem, 4rem) scale(1.1);
+    background-position: 0 56px;
   }
 }
 
-.text-gradient {
-  background: linear-gradient(100deg, #c4a1ff 0%, #9146ff 35%, #f472b6 70%, #fb923c 100%);
+.scanlines {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgb(255 255 255 / 0.018) 0,
+    rgb(255 255 255 / 0.018) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: overlay;
+}
+
+/* ───────────── Type ───────────── */
+
+.text-neon {
+  background: linear-gradient(95deg, #d8b4fe 0%, #a970ff 40%, #ff4fa3 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  filter: drop-shadow(0 0 18px rgb(169 112 255 / 0.45));
 }
 
+.glow-accent {
+  color: var(--accent);
+  text-shadow: 0 0 14px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+.hud-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.index-outline {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+/* ───────────── Chamfered HUD panels ─────────────
+   Outer element draws the 1px border via its background,
+   inner element is the panel fill. Both share the same cut. */
+
+.cut {
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--cut)) 0,
+    100% var(--cut),
+    100% 100%,
+    var(--cut) 100%,
+    0 calc(100% - var(--cut))
+  );
+}
+
+.cut-sm {
+  --cut: 8px;
+}
+
+.hud {
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--accent) 35%, transparent),
+    rgb(255 255 255 / 0.07) 40%,
+    rgb(255 255 255 / 0.05) 70%,
+    color-mix(in srgb, var(--accent) 25%, transparent)
+  );
+  transition: background 200ms;
+}
+
+.hud > .hud-inner {
+  background: linear-gradient(180deg, rgb(20 16 36 / 0.92), rgb(12 10 22 / 0.92));
+  height: 100%;
+}
+
+/* Glow lives on an unclipped wrapper, since clip-path would cut the shadow. */
+.hud-hover {
+  transition:
+    filter 200ms,
+    transform 200ms;
+}
+.hud-hover:hover > .hud,
+.cmd-card:target > .hud {
+  background: linear-gradient(135deg, var(--accent), rgb(255 255 255 / 0.12) 50%, var(--accent));
+}
+.hud-hover:hover {
+  transform: translateY(-2px);
+  filter: drop-shadow(0 0 12px color-mix(in srgb, var(--accent) 40%, transparent));
+}
+.cmd-card:target {
+  filter: drop-shadow(0 0 22px color-mix(in srgb, var(--accent) 70%, transparent));
+}
+
+/* Corner brackets, like a stream overlay frame */
+.brackets {
+  position: relative;
+}
+.brackets::before,
+.brackets::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: var(--accent);
+  pointer-events: none;
+  filter: drop-shadow(0 0 6px var(--accent));
+}
+.brackets::before {
+  top: -6px;
+  left: -6px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+.brackets::after {
+  bottom: -6px;
+  right: -6px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+}
+
+/* ───────────── Controls ───────────── */
+
 .glass {
-  background: rgb(19 16 31 / 0.72);
-  backdrop-filter: blur(16px) saturate(140%);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  background: #0a0814;
+}
+
+.btn-neon {
+  --cut: 10px;
+  background: var(--color-twitch);
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 0.15) inset,
+    0 0 24px -4px rgb(145 70 255 / 0.9);
+  transition:
+    filter 150ms,
+    transform 150ms;
+}
+.btn-neon:hover {
+  filter: brightness(1.15);
+}
+.btn-neon:active {
+  transform: translateY(1px);
 }
 
 .chip {
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
-  border-radius: 9999px;
   border: 1px solid rgb(255 255 255 / 0.1);
   background: rgb(255 255 255 / 0.04);
-  padding: 0.375rem 0.875rem;
+  padding: 0.4rem 0.8rem;
   white-space: nowrap;
   transition:
     background-color 150ms,
     border-color 150ms,
-    color 150ms;
+    color 150ms,
+    box-shadow 150ms;
 }
 .chip:hover {
   background: rgb(255 255 255 / 0.08);
-  border-color: rgb(255 255 255 / 0.18);
+  border-color: rgb(255 255 255 / 0.2);
+}
+.chip[data-active="true"] {
+  color: white;
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  box-shadow: 0 0 16px -4px var(--accent);
 }
 
 .no-scrollbar {
@@ -139,40 +273,56 @@ body {
   display: none;
 }
 
-/* Command card linked from a URL hash */
-.cmd-card:target {
-  border-color: rgb(167 139 250 / 0.7);
-  box-shadow:
-    0 0 0 1px rgb(167 139 250 / 0.5),
-    0 0 40px -8px rgb(145 70 255 / 0.6);
-}
-
 mark {
-  background: rgb(145 70 255 / 0.35);
+  background: color-mix(in srgb, var(--accent) 35%, transparent);
   color: inherit;
-  border-radius: 0.2rem;
+  border-radius: 0.15rem;
   padding: 0 0.1rem;
 }
 
-@keyframes toast-in {
-  from {
+/* ───────────── Motion ───────────── */
+
+@keyframes alert-in {
+  0% {
     opacity: 0;
-    transform: translate(-50%, 12px) scale(0.96);
+    transform: translateY(16px) scale(0.9);
+  }
+  60% {
+    transform: translateY(-3px) scale(1.02);
   }
 }
 .toast {
-  animation: toast-in 180ms ease-out;
+  animation: alert-in 260ms cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+
+@keyframes chat-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+.chat-in {
+  animation: chat-in 260ms ease-out;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+.caret {
+  animation: blink 1s steps(1) infinite;
 }
 
 @keyframes pulse-dot {
   0%,
   100% {
-    box-shadow: 0 0 0 0 rgb(239 68 68 / 0.6);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 70%, transparent);
   }
   50% {
-    box-shadow: 0 0 0 5px rgb(239 68 68 / 0);
+    box-shadow: 0 0 0 5px transparent;
   }
 }
-.live-dot {
+.pulse-dot {
   animation: pulse-dot 2s ease-in-out infinite;
 }
