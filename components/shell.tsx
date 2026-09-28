@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowUp, Check, Search, X } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useDeferredValue, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { TWITCH_URL, locales, type Dictionary, type Locale } from "@/lib/i18n";
@@ -11,6 +12,7 @@ import {
   restorePosition,
 } from "@/lib/lang-switch";
 import { LANG_STORAGE_KEY } from "@/lib/storage";
+import logo from "@/public/maikoLogo.jpeg";
 import { BackgroundRotator } from "./background-rotator";
 import { Capelinhas } from "./capelinhas";
 import { TwitchIcon } from "./icons";
@@ -128,8 +130,15 @@ export function Header({
     <header className="glass sticky top-0 z-40 h-[var(--header-h)] border-b border-white/[0.06]">
       <div className="mx-auto flex h-full max-w-7xl items-center gap-3 px-4 sm:px-6 lg:px-8">
         <Link href={`/${lang}/`} className="flex min-w-0 items-center gap-3">
-          <span className="cut cut-sm grid size-9 shrink-0 place-items-center bg-gradient-to-br from-[#a970ff] to-[#ff4fa3] font-display text-lg font-bold text-white">
-            M
+          {/* Neon gradient frame around the channel logo */}
+          <span className="cut cut-sm size-10 shrink-0 bg-gradient-to-br from-[#a970ff] to-[#ff4fa3] p-[2px] drop-shadow-[0_0_10px_rgb(169_112_255/0.5)]">
+            <Image
+              src={logo}
+              alt=""
+              sizes="40px"
+              priority
+              className="cut cut-sm size-full object-cover"
+            />
           </span>
           <span className="flex min-w-0 flex-col leading-tight">
             <span className="truncate font-display text-base font-bold tracking-wider uppercase">
