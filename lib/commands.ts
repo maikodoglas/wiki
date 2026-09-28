@@ -34,6 +34,8 @@ export type Command = {
   desc: Localized;
   examples?: string[];
   link?: string;
+  /** A page of this wiki, relative to the language root (e.g. "cheats/"). */
+  page?: string;
   group?: string;
 };
 
@@ -166,10 +168,10 @@ export const categories: Category[] = [
         id: "cheats",
         names: ["!cheats"],
         desc: {
-          pt: "Link da lista de cheats.",
-          en: "Link to the cheats list.",
+          pt: "Link da lista de cheat codes, para resgatar com os pontos do canal.",
+          en: "Link to the cheat codes list, to redeem with channel points.",
         },
-        link: "https://pastebin.com/u9V5tf3h",
+        page: "cheats/",
       },
       {
         id: "lurk",

@@ -1,6 +1,7 @@
 "use client";
 
-import { ChevronRight, Copy, ExternalLink, Link2 } from "lucide-react";
+import { ArrowRight, ChevronRight, Copy, ExternalLink, Link2 } from "lucide-react";
+import Link from "next/link";
 import { argLabels, type Arg, type Command } from "@/lib/commands";
 import type { Dictionary, Locale } from "@/lib/i18n";
 import { Highlight } from "./highlight";
@@ -130,6 +131,17 @@ export function CommandCard({ command, lang, t, query, onCopy }: Props) {
                 </button>
               ))}
             </div>
+          )}
+
+          {command.page && (
+            <Link
+              href={`/${lang}/${command.page}`}
+              className="cut cut-sm mt-auto inline-flex w-fit max-w-full items-center gap-2 bg-[color-mix(in_srgb,var(--accent)_16%,transparent)] px-3 py-1.5 text-sm font-semibold text-white transition hover:bg-[color-mix(in_srgb,var(--accent)_30%,transparent)]"
+            >
+              <ArrowRight className="size-3.5 shrink-0 text-[var(--accent)]" />
+              <span className="font-display tracking-wide uppercase">{t.openPage}</span>
+              <span className="truncate font-mono text-xs text-white/45">/{command.page.replace(/\/$/, "")}</span>
+            </Link>
           )}
 
           {command.link && (
