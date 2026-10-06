@@ -1,8 +1,9 @@
 // Generated from the cheats pastebin (https://pastebin.com/u9V5tf3h). Edit freely.
 import type { Localized } from "./i18n";
 
-export type Speaker = "bety" | "fernanda";
-export type BetyLine = { code: string; text: string; speaker: Speaker };
+export type Speaker = "bety" | "fernanda" | "ivone" | "seuferreira";
+export type CallLine = { code: string; text: string; speaker: Speaker };
+export type RandomCheat = { code: string; desc: Localized };
 /** Side "a" is the original call, side "b" is the clone. Lines without a code are spoken, not typed. */
 export type ScriptLine = { side: "a" | "b"; code?: string; text: string; note?: string };
 
@@ -112,7 +113,7 @@ export const soundCheats: string[] = [
   "!ZAP"
 ];
 
-export const betyRandom: { code: string; desc: Localized }[] = [
+export const betyRandom: RandomCheat[] = [
   {
     code: "!BETYRANDOM",
     desc: { pt: "Manda uma fala aleatória da Bety", en: "Plays a random Bety line" },
@@ -128,7 +129,7 @@ export const betyRandom: { code: string; desc: Localized }[] = [
 ];
 
 /** Quotes are the audio itself, so they stay in Portuguese. */
-export const betyLines: BetyLine[] = [
+export const betyLines: CallLine[] = [
   {
     "code": "!BETY",
     "text": "Bety",
@@ -1650,4 +1651,1308 @@ export const cloneScript: ScriptLine[][] = [
       "text": "Ma como é que pode isso?"
     }
   ]
+];
+
+export const ivoneRandom: RandomCheat[] = [
+  {
+    code: "!IVONERANDOM",
+    desc: { pt: "Manda uma fala aleatória da Ivone", en: "Plays a random Ivone line" },
+  },
+  {
+    code: "!SEUFERREIRARANDOM",
+    desc: { pt: "Manda uma fala aleatória do Seu Ferreira", en: "Plays a random Seu Ferreira line" },
+  },
+  {
+    code: "!RANDOMIVONE",
+    desc: {
+      pt: "Manda uma frase aleatória da Ivone ou do Seu Ferreira",
+      en: "Plays a random Ivone or Seu Ferreira line",
+    },
+  },
+];
+
+export const ivoneLines: CallLine[] = [
+  {
+    "code": "!IVONE",
+    "text": "A Ivone",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONE2",
+    "text": "Ivone!",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEAGORATOCOUDENOVO",
+    "text": "Agora tocou de novo, vou desligar",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEALGUMDEFEITO",
+    "text": "É algum defeito",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEALGUMDEFEITO2",
+    "text": "É algum defeito, é",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEALGUMDEFEITOALGUMFIO",
+    "text": "É algum defeito, algum fio que eles mexe e liga na casa da gente",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEALGUMFIO",
+    "text": "Algum fio que eles mexe e liga na casa da gente",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEALO",
+    "text": "Alô",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEALO2",
+    "text": "Alô",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEAN",
+    "text": "Hã...",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEAN2",
+    "text": "Hã?",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEAN3",
+    "text": "Hã!",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEAQUILIGARAMAQUI",
+    "text": "Não, aqui que ligaram aqui",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEATENDENDO",
+    "text": "Eu-Eu to atendendo o telefone que tocou",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEBINA",
+    "text": "Ta na minha bina",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEBINASEUNUMERO",
+    "text": "Meu telefone tocou e eu olhei na bina é o seu número, da onde é aí?",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONECASADERESIDENCIA",
+    "text": "É uma casa de residência",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONECOMQUEMQUERFALAR",
+    "text": "Com quem quer falar?",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONECTZQEH",
+    "text": "Certeza que é",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEDEFEITO",
+    "text": "Deve ser algum defeito, senhora",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEDEFEITOMESMO",
+    "text": "É, defeito mesmo",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEDEFEITOTOCAAQUI",
+    "text": "Deve ser defeito, porque toca aqui, a senhora entendeu?",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEDEVESERALGUMDEFEITO",
+    "text": "Deve ser algum defeito!",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEDEVESERALGUMENGANO",
+    "text": "É, deve ser algum engano, não esquenta não",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEDEVESERDEFEITO",
+    "text": "É, deve ser defeito mesmo",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEDEVESERMESMO",
+    "text": "Deve ser mesmo",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEDEVETAMESMO",
+    "text": "É, deve ta mesmo",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEEH",
+    "text": "É",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEEHDEFEITO",
+    "text": "É defeito! Deve ser defeito",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEEHEH",
+    "text": "É... é... *risos*",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEELAMESMO",
+    "text": "Ela mesmo",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEENGANADO",
+    "text": "É-é-é-é esse telefone ta enganado",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEENGANO",
+    "text": "Deve ser alguma coisa de engano",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEENGANO2",
+    "text": "É engano!",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEENGANOCTZ",
+    "text": "É engano, pode ter certeza que é",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEENGANOSENHORA",
+    "text": "Deve ser algum engano, senhora",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEENGANOSIM",
+    "text": "É engano sim",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEENGANOTELESP",
+    "text": "Isso tudo é engano, é engano da Telesp já",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEENGRACADO",
+    "text": "Engraçado",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEENGRACADOLIGARAM",
+    "text": "Engraçado, ligaram pra cá. Eu to atendendo o telefone que tocou...",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEENGRACADONE",
+    "text": "Engraçado né?",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEENTAO",
+    "text": "Então...",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEENTAOEDEFEITO",
+    "text": "Então... é defeito",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEENTENDEU",
+    "text": "Entendeu?",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEENTENDEU2",
+    "text": "Entendeu?",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEEUNAOSEI",
+    "text": "Eu não sei!",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEEXATAMENTE",
+    "text": "Exatamente",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEGAGA",
+    "text": "Porque num... num... mmmnão é-a senhora",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEHM",
+    "text": "Hm...",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONELIGARAMAI",
+    "text": "Quando a senhora fala que ligaram aí",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONELIGARAMAITOCAAQUI",
+    "text": "Então, quando a senhora fala que ligaram aí, toca aqui, por isso que a gente atende, entendeu?",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONELIGARAMPRACA",
+    "text": "Ligaram pra cá",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONELIGOUPRAMIM",
+    "text": "Eu to atendendo quem ligou pra mim",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONELINHACRUZADA",
+    "text": "É isso aí, linha cruzada",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEMEUTELEFONETOCOU",
+    "text": "Meu telefone tocou",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEMINHACASA",
+    "text": "Ta tocando aqui na minha casa, querida",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONENAO",
+    "text": "Não, não, num",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONENAOCONHECO",
+    "text": "Eu não conheço",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONENAOLIGUEI",
+    "text": "Não, não liguei, tão ligando pra mim",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONENAOLIGUEINAO",
+    "text": "Não, não, num-não liguei não",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONENAOMECONHECE",
+    "text": "A senhora-não conheço a senhora/a senhora não me conhece é engano",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONENAOQUEROFALAR",
+    "text": "Eu não quero falar com ninguém!",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEPOISNAO",
+    "text": "Pois não",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEPOISNAO2",
+    "text": "Pois não",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEPORISSO",
+    "text": "Por isso que a gente atende",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEQUANDOTOCA",
+    "text": "Quando toca esse número, que é o seu número",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEQUANDOTOCAAQUI",
+    "text": "Quando toca aqui eu atendo",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEQUEMTAFALANDO",
+    "text": "Quem ta falando?",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEQUERFALAR",
+    "text": "Com quem você quer falar, momor?",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEQUERIDA",
+    "text": "Querida",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEREALMENTE",
+    "text": "Realmente agora eu também não liguei",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONERESIDENCIA",
+    "text": "É residência",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONERISOS",
+    "text": "*risos*",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONESENHORA",
+    "text": "A senhora falou",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONESENHORAFALOU",
+    "text": "A senhora falou que num-eu não conheço",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONESENHORAQUELIGOU",
+    "text": "A senhora que ligou?",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONESENHORAQUERFALAR",
+    "text": "Com quem a senhora quer falar?",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONESENHORATOCAAQUI",
+    "text": "Eu atendo, a senhora que toca aqui",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONESEUNOME",
+    "text": "Como é seu nome?",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONESEUNUMERO",
+    "text": "Eu não sei! Quando toca esse número, que é o seu número, ta na minha bina... Ta tocando aqui na minha casa, querida",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONESIM",
+    "text": "Sim",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONETABOMDIA",
+    "text": "Ta, bom dia",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONETBM",
+    "text": "O meu também é Ivone *risos*",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONETBMTOATENDENDO",
+    "text": "E eu também to atendendo a senhora que tocou aqui comigo agora",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONETELEFONICA",
+    "text": "Deve ser algum engano da telefônica então",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONETELESP",
+    "text": "Deve ser algum defeito da Telesp",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONETOATENDENDO",
+    "text": "E eu to atendendo",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONETOCAAQUI",
+    "text": "Toca aqui",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONETOCAAQUI2",
+    "text": "Toca aqui",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONETOCAAQUI3",
+    "text": "Toca aqui",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONETOCAAQUIENTENDE",
+    "text": "Toca aqui, a senhora entende?",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONETOCAEUATENDO",
+    "text": "Quando toca aqui eu atendo, entendeu?",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONETOCANDOATENDENDO",
+    "text": "É porque ta tocando aqui que eu to atendendo",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONETOCOUDENOVO",
+    "text": "Quando eu falo é porque ta tocando aqui também, agora tocou de novo",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONETOCOUPRACA",
+    "text": "Toquei porque tocou pra cá",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONETOCOUPRAMIM",
+    "text": "Você-A senhora tocou pra mim",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEVIMATENDER",
+    "text": "E-e eu vim atender",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEVOCELIGOUPRAMIM",
+    "text": "A senhora responde-e aí a senhora fala: Cê ligou pra mim?",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!IVONEVODESLIGA",
+    "text": "Vô desligá",
+    "speaker": "ivone"
+  },
+  {
+    "code": "!SEUFERREIRAALO",
+    "text": "Alô",
+    "speaker": "seuferreira"
+  },
+  {
+    "code": "!SEUFERREIRAALO2",
+    "text": "Alô",
+    "speaker": "seuferreira"
+  },
+  {
+    "code": "!SEUFERREIRAALO3",
+    "text": "Alô!",
+    "speaker": "seuferreira"
+  },
+  {
+    "code": "!SEUFERREIRAAN",
+    "text": "Hã?",
+    "speaker": "seuferreira"
+  },
+  {
+    "code": "!SEUFERREIRACAPETA",
+    "text": "Capeta!",
+    "speaker": "seuferreira"
+  },
+  {
+    "code": "!SEUFERREIRACAPETACRUZANDOLINHA",
+    "text": "Deve ser o capeta que ta cruzando a linha!",
+    "speaker": "seuferreira"
+  },
+  {
+    "code": "!SEUFERREIRAEM",
+    "text": "Hein?",
+    "speaker": "seuferreira"
+  },
+  {
+    "code": "!SEUFERREIRAEUTBMNAOLIGUEI",
+    "text": "Eu também não liguei",
+    "speaker": "seuferreira"
+  },
+  {
+    "code": "!SEUFERREIRALIGACAO",
+    "text": "A ligação daí que ta ligando aqui no meu telefone",
+    "speaker": "seuferreira"
+  },
+  {
+    "code": "!SEUFERREIRALIGADIREITO",
+    "text": "Desliga o telefone da senhora e liga direito o número que a senhora quer",
+    "speaker": "seuferreira"
+  },
+  {
+    "code": "!SEUFERREIRALIGANDOMEUTELEFONE",
+    "text": "A senhora que ta ligando pro meu telefone!",
+    "speaker": "seuferreira"
+  },
+  {
+    "code": "!SEUFERREIRALIGUEIPRANINGUEM",
+    "text": "Não, eu não liguei pra ninguém não",
+    "speaker": "seuferreira"
+  },
+  {
+    "code": "!SEUFERREIRAMESMALINHA",
+    "text": "Ta caindo na mesma linha, senhora",
+    "speaker": "seuferreira"
+  },
+  {
+    "code": "!SEUFERREIRANAOQUEROFALAR",
+    "text": "Eu não quero falar com ninguém, a senhora que ta ligando pro meu telefone",
+    "speaker": "seuferreira"
+  },
+  {
+    "code": "!SEUFERREIRANAOTOLIGANDO",
+    "text": "Eu não to ligando lugar nenhum não, senhor",
+    "speaker": "seuferreira"
+  },
+  {
+    "code": "!SEUFERREIRANINGUEM",
+    "text": "Eu não quero falar com ninguém!",
+    "speaker": "seuferreira"
+  },
+  {
+    "code": "!SEUFERREIRAQUENUMERO",
+    "text": "Que número a senhora ta discando?",
+    "speaker": "seuferreira"
+  },
+  {
+    "code": "!SEUFERREIRASATANAS",
+    "text": "Satanás!",
+    "speaker": "seuferreira"
+  },
+  {
+    "code": "!SEUFERREIRASATANASLIGANDO",
+    "text": "Então deve ser o Satanás que ta ligando",
+    "speaker": "seuferreira"
+  }
+];
+
+/** "Clone da Ivone": recreate the prank call in order. */
+export const ivoneScript: ScriptLine[][] = [
+  [
+    {
+      "side": "a",
+      "code": "!IVONEALO",
+      "text": "Alô"
+    },
+    {
+      "side": "b",
+      "text": "Oi!"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEPOISNAO",
+      "text": "Pois não"
+    },
+    {
+      "side": "b",
+      "text": "Quem é?"
+    },
+    {
+      "side": "a",
+      "code": "!IVONE",
+      "text": "A Ivone"
+    },
+    {
+      "side": "b",
+      "text": "Ah ta..."
+    },
+    {
+      "side": "a",
+      "code": "!IVONECOMQUEMQUERFALAR",
+      "text": "Com quem quer falar?"
+    },
+    {
+      "side": "b",
+      "text": "Eu acabei de atender aqui, Ivone. Você que ligou?"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEENGRACADOLIGARAM",
+      "text": "Engraçado, ligaram pra cá. Eu to atendendo o telefone que tocou...",
+      "note": "!IVONEENGRACADO + !IVONELIGARAMPRACA + !IVONEATENDENDO"
+    },
+    {
+      "side": "b",
+      "text": "O que será que ta acontecendo com esse telefone hein?"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEENGANADO",
+      "text": "É-é-é-é esse telefone ta enganado"
+    },
+    {
+      "side": "b",
+      "text": "Peraí, eu toquei pra você ou você tocou pra mim?"
+    },
+    {
+      "side": "a",
+      "code": "!IVONESEUNUMERO",
+      "text": "Eu não sei! Quando toca esse número, que é o seu número, ta na minha bina... Ta tocando aqui na minha casa, querida",
+      "note": "!IVONEEUNAOSEI + !IVONEQUANDOTOCA + !IVONEBINA + !IVONEMINHACASA + !IVONEQUERIDA"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEVIMATENDER",
+      "text": "E-e eu vim atender"
+    },
+    {
+      "side": "a",
+      "code": "!IVONESENHORAFALOU",
+      "text": "A senhora falou que num-eu não conheço",
+      "note": "!IVONESENHORA + !IVONENAOCONHECO"
+    },
+    {
+      "side": "a",
+      "code": "!IVONESENHORAQUERFALAR",
+      "text": "Com quem a senhora quer falar?"
+    },
+    {
+      "side": "b",
+      "text": "Aí é casa ou empresa?"
+    },
+    {
+      "side": "a",
+      "code": "!IVONECASADERESIDENCIA",
+      "text": "É uma casa de residência"
+    },
+    {
+      "side": "a",
+      "code": "!IVONETELEFONICA",
+      "text": "Deve ser algum engano da telefônica então"
+    },
+    {
+      "side": "b",
+      "text": "Será Ivone?"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEENGANO",
+      "text": "Deve ser alguma coisa de engano"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEGAGA",
+      "text": "Porque num... num... mmmnão é-a senhora"
+    },
+    {
+      "side": "a",
+      "code": "!IVONENAOMECONHECE",
+      "text": "A senhora-não conheço a senhora/a senhora não me conhece é engano"
+    },
+    {
+      "side": "b",
+      "text": "Mas aí que ligou aqui!"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEAQUILIGARAMAQUI",
+      "text": "Não, aqui que ligaram aqui"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEDEFEITO",
+      "text": "Deve ser algum defeito, senhora"
+    },
+    {
+      "side": "b",
+      "text": "Estranho, é a prime..."
+    },
+    {
+      "side": "a",
+      "code": "!IVONEDEVESERALGUMDEFEITO",
+      "text": "Deve ser algum defeito!"
+    },
+    {
+      "side": "b",
+      "text": "Defeito de quê?"
+    },
+    {
+      "side": "a",
+      "code": "!IVONELIGARAMAITOCAAQUI",
+      "text": "Então, quando a senhora fala que ligaram aí, toca aqui, por isso que a gente atende, entendeu?",
+      "note": "!IVONEENTAO + !IVONELIGARAMAI + !IVONETOCAAQUI + !IVONEPORISSO + !IVONEENTENDEU"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEALGUMDEFEITOALGUMFIO",
+      "text": "É algum defeito, algum fio que eles mexe e liga na casa da gente",
+      "note": "!IVONEALGUMDEFEITO + !IVONEALGUMFIO"
+    },
+    {
+      "side": "b",
+      "text": "Nesse caso a melhor coisa a fazer é chamar a companhia telefônica, né Ivone? Ivone!"
+    },
+    {
+      "side": "a",
+      "code": "!SEUFERREIRAMESMALINHA",
+      "text": "Ta caindo na mesma linha, senhora"
+    },
+    {
+      "side": "a",
+      "code": "!SEUFERREIRAQUENUMERO",
+      "text": "Que número a senhora ta discando?"
+    },
+    {
+      "side": "a",
+      "code": "!SEUFERREIRALIGADIREITO",
+      "text": "Desliga o telefone da senhora e liga direito o número que a senhora quer"
+    },
+    {
+      "side": "b",
+      "text": "Quem é você?"
+    },
+    {
+      "side": "a",
+      "code": "!SEUFERREIRAEM",
+      "text": "Hein?"
+    },
+    {
+      "side": "b",
+      "text": "Com quem você quer falar?"
+    },
+    {
+      "side": "a",
+      "code": "!SEUFERREIRANAOQUEROFALAR",
+      "text": "Eu não quero falar com ninguém, a senhora que ta ligando pro meu telefone",
+      "note": "!SEUFERREIRANINGUEM + !SEUFERREIRALIGANDOMEUTELEFONE"
+    },
+    {
+      "side": "b",
+      "text": "Hã?"
+    },
+    {
+      "side": "a",
+      "code": "!SEUFERREIRALIGACAO",
+      "text": "A ligação daí que ta ligando aqui no meu telefone"
+    },
+    {
+      "side": "b",
+      "text": "Você ligou aqui sim!"
+    },
+    {
+      "side": "a",
+      "code": "!SEUFERREIRALIGUEIPRANINGUEM",
+      "text": "Não, eu não liguei pra ninguém não"
+    },
+    {
+      "side": "b",
+      "text": "Então quem ta me ligando?"
+    },
+    {
+      "side": "a",
+      "code": "!SEUFERREIRASATANASLIGANDO",
+      "text": "Então deve ser o Satanás que ta ligando",
+      "note": "!SEUFERREIRASATANAS"
+    }
+  ],
+  [
+    {
+      "side": "a",
+      "code": "!IVONEALO2",
+      "text": "Alô"
+    },
+    {
+      "side": "b",
+      "code": "!IVONEALO",
+      "text": "Alô"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEPOISNAO2",
+      "text": "Pois não"
+    },
+    {
+      "side": "b",
+      "code": "!IVONE",
+      "text": "A Ivone"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEELAMESMO",
+      "text": "Ela mesmo"
+    },
+    {
+      "side": "b",
+      "code": "!IVONEAN",
+      "text": "Hã..."
+    },
+    {
+      "side": "a",
+      "code": "!IVONEQUEMTAFALANDO",
+      "text": "Quem ta falando?"
+    },
+    {
+      "side": "b",
+      "code": "!IVONEENGRACADOLIGARAM",
+      "text": "Engraçado, ligaram pra cá. Eu to atendendo o telefone que tocou..."
+    },
+    {
+      "side": "a",
+      "code": "!IVONESEUNOME",
+      "text": "Como é seu nome?"
+    },
+    {
+      "side": "b",
+      "code": "!IVONE",
+      "text": "A Ivone"
+    },
+    {
+      "side": "a",
+      "code": "!IVONE2",
+      "text": "Ivone!"
+    },
+    {
+      "side": "b",
+      "code": "!IVONEAN",
+      "text": "Hã..."
+    },
+    {
+      "side": "a",
+      "code": "!IVONETBM",
+      "text": "O meu também é Ivone *risos*"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEENGANOSENHORA",
+      "text": "Deve ser algum engano, senhora"
+    },
+    {
+      "side": "b",
+      "code": "!IVONESENHORAQUELIGOU",
+      "text": "A senhora que ligou?"
+    },
+    {
+      "side": "a",
+      "code": "!IVONENAOLIGUEI",
+      "text": "Não, não liguei, tão ligando pra mim"
+    },
+    {
+      "side": "a",
+      "code": "!IVONETOATENDENDO",
+      "text": "E eu to atendendo"
+    },
+    {
+      "side": "b",
+      "code": "!IVONEENGANADO",
+      "text": "É-é-é-é esse telefone ta enganado"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEDEVETAMESMO",
+      "text": "É, deve ta mesmo"
+    },
+    {
+      "side": "b",
+      "code": "!IVONEBINASEUNUMERO",
+      "text": "Meu telefone tocou e eu olhei na bina é o seu número, da onde é aí?"
+    },
+    {
+      "side": "a",
+      "code": "!IVONERESIDENCIA",
+      "text": "É residência"
+    },
+    {
+      "side": "b",
+      "code": "!IVONECASADERESIDENCIA",
+      "text": "É uma casa de residência"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEEXATAMENTE",
+      "text": "Exatamente"
+    },
+    {
+      "side": "b",
+      "code": "!IVONETELESP",
+      "text": "Deve ser algum defeito da Telesp"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEDEVESERMESMO",
+      "text": "Deve ser mesmo"
+    },
+    {
+      "side": "b",
+      "code": "!IVONEENGANO",
+      "text": "Deve ser alguma coisa de engano"
+    },
+    {
+      "side": "b",
+      "code": "!IVONEGAGA",
+      "text": "Porque num... num... mmmnão é-a senhora"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEENGANOSIM",
+      "text": "É engano sim"
+    },
+    {
+      "side": "b",
+      "code": "!IVONEDEVESERALGUMDEFEITO",
+      "text": "Deve ser algum defeito!"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEDEFEITOMESMO",
+      "text": "É, defeito mesmo"
+    },
+    {
+      "side": "b",
+      "code": "!IVONEAN2",
+      "text": "Hã?"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEDEVESERDEFEITO",
+      "text": "É, deve ser defeito mesmo"
+    },
+    {
+      "side": "b",
+      "code": "!IVONEAN2",
+      "text": "Hã?"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEEHDEFEITO",
+      "text": "É defeito! Deve ser defeito"
+    },
+    {
+      "side": "b",
+      "code": "!IVONEDEVESERALGUMDEFEITO",
+      "text": "Deve ser algum defeito!"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEEHEH",
+      "text": "É... é... *risos*"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEDEFEITOTOCAAQUI",
+      "text": "Deve ser defeito, porque toca aqui, a senhora entendeu?"
+    },
+    {
+      "side": "a",
+      "code": "!IVONETOCAEUATENDO",
+      "text": "Quando toca aqui eu atendo, entendeu?"
+    },
+    {
+      "side": "a",
+      "code": "!IVONETOCANDOATENDENDO",
+      "text": "É porque ta tocando aqui que eu to atendendo"
+    },
+    {
+      "side": "b",
+      "code": "!IVONEAQUILIGARAMAQUI",
+      "text": "Não, aqui que ligaram aqui"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEENTAOEDEFEITO",
+      "text": "Então... é defeito"
+    },
+    {
+      "side": "b",
+      "code": "!IVONETOCOUPRAMIM",
+      "text": "Você-A senhora tocou pra mim"
+    },
+    {
+      "side": "a",
+      "code": "!IVONETOCOUPRACA",
+      "text": "Toquei porque tocou pra cá"
+    },
+    {
+      "side": "a",
+      "code": "!IVONETOCAAQUIENTENDE",
+      "text": "Toca aqui, a senhora entende?"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEQUANDOTOCAAQUI",
+      "text": "Quando toca aqui eu atendo"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEVOCELIGOUPRAMIM",
+      "text": "A senhora responde-e aí a senhora fala: Cê ligou pra mim?"
+    },
+    {
+      "side": "b",
+      "code": "!IVONELIGARAMAITOCAAQUI",
+      "text": "Então, quando a senhora fala que ligaram aí, toca aqui, por isso que a gente atende, entendeu?"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEAN3",
+      "text": "Hã!"
+    },
+    {
+      "side": "a",
+      "code": "!IVONESENHORATOCAAQUI",
+      "text": "Eu atendo, a senhora que toca aqui"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEENGRACADONE",
+      "text": "Engraçado né?"
+    },
+    {
+      "side": "b",
+      "code": "!IVONEENGRACADOLIGARAM",
+      "text": "Engraçado, ligaram pra cá. Eu to atendendo o telefone que tocou..."
+    },
+    {
+      "side": "a",
+      "code": "!IVONETBMTOATENDENDO",
+      "text": "E eu também to atendendo a senhora que tocou aqui comigo agora"
+    },
+    {
+      "side": "b",
+      "code": "!IVONEQUERFALAR",
+      "text": "Com quem você quer falar, momor?"
+    },
+    {
+      "side": "a",
+      "code": "!IVONENAOQUEROFALAR",
+      "text": "Eu não quero falar com ninguém!"
+    },
+    {
+      "side": "a",
+      "code": "!IVONELIGOUPRAMIM",
+      "text": "Eu to atendendo quem ligou pra mim"
+    },
+    {
+      "side": "b",
+      "code": "!IVONEREALMENTE",
+      "text": "Realmente agora eu também não liguei"
+    },
+    {
+      "side": "b",
+      "code": "!IVONEMEUTELEFONETOCOU",
+      "text": "Meu telefone tocou"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEENGANOTELESP",
+      "text": "Isso tudo é engano, é engano da Telesp já"
+    },
+    {
+      "side": "b",
+      "code": "!IVONEENGANO",
+      "text": "Deve ser alguma coisa de engano"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEENGANOCTZ",
+      "text": "É engano, pode ter certeza que é"
+    },
+    {
+      "side": "b",
+      "code": "!IVONEAN2",
+      "text": "Hã?"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEENGANO2",
+      "text": "É engano!"
+    },
+    {
+      "side": "b",
+      "code": "!IVONEALGUMDEFEITO",
+      "text": "É algum defeito"
+    },
+    {
+      "side": "b",
+      "code": "!IVONEDEVESERALGUMENGANO",
+      "text": "É, deve ser algum engano, não esquenta não"
+    },
+    {
+      "side": "a",
+      "code": "!IVONETABOMDIA",
+      "text": "Ta, bom dia"
+    },
+    {
+      "side": "b",
+      "code": "!IVONELINHACRUZADA",
+      "text": "É isso aí, linha cruzada"
+    },
+    {
+      "side": "a",
+      "code": "!IVONETABOMDIA",
+      "text": "Ta, bom dia"
+    },
+    {
+      "side": "b",
+      "code": "!IVONEALGUMDEFEITO",
+      "text": "É algum defeito"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEALGUMDEFEITO2",
+      "text": "É algum defeito, é"
+    },
+    {
+      "side": "b",
+      "code": "!IVONELIGARAMAITOCAAQUI",
+      "text": "Então, quando a senhora fala que ligaram aí, toca aqui, por isso que a gente atende, entendeu?"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEHM",
+      "text": "Hm..."
+    },
+    {
+      "side": "a",
+      "code": "!IVONETOCOUDENOVO",
+      "text": "Quando eu falo é porque ta tocando aqui também, agora tocou de novo"
+    },
+    {
+      "side": "b",
+      "code": "!IVONEAN2",
+      "text": "Hã?"
+    },
+    {
+      "side": "a",
+      "code": "!IVONEAGORATOCOUDENOVO",
+      "text": "Agora tocou de novo, vou desligar"
+    },
+    {
+      "side": "b",
+      "code": "!IVONEENGRACADOLIGARAM",
+      "text": "Engraçado, ligaram pra cá. Eu to atendendo o telefone que tocou..."
+    },
+    {
+      "side": "a",
+      "code": "!IVONENAOLIGUEINAO",
+      "text": "Não, não, num-não liguei não"
+    },
+    {
+      "side": "b",
+      "code": "!IVONEDEVESERALGUMDEFEITO",
+      "text": "Deve ser algum defeito!"
+    },
+    {
+      "side": "b",
+      "code": "!IVONEENGANADO",
+      "text": "É-é-é-é esse telefone ta enganado"
+    },
+    {
+      "side": "a",
+      "code": "!SEUFERREIRAALO",
+      "text": "Alô"
+    },
+    {
+      "side": "b",
+      "code": "!SEUFERREIRAALO2",
+      "text": "Alô"
+    },
+    {
+      "side": "b",
+      "code": "!SEUFERREIRAEM",
+      "text": "Hein?"
+    },
+    {
+      "side": "a",
+      "code": "!SEUFERREIRAAN",
+      "text": "Hã?"
+    },
+    {
+      "side": "b",
+      "code": "!SEUFERREIRAEM",
+      "text": "Hein?"
+    },
+    {
+      "side": "a",
+      "code": "!SEUFERREIRAALO3",
+      "text": "Alô!"
+    },
+    {
+      "side": "b",
+      "code": "!SEUFERREIRALIGACAO",
+      "text": "A ligação daí que ta ligando aqui no meu telefone"
+    },
+    {
+      "side": "a",
+      "code": "!SEUFERREIRANAOTOLIGANDO",
+      "text": "Eu não to ligando lugar nenhum não, senhor"
+    },
+    {
+      "side": "b",
+      "code": "!SEUFERREIRALIGUEIPRANINGUEM",
+      "text": "Não, eu não liguei pra ninguém não"
+    },
+    {
+      "side": "a",
+      "code": "!SEUFERREIRAEUTBMNAOLIGUEI",
+      "text": "Eu também não liguei"
+    },
+    {
+      "side": "b",
+      "code": "!SEUFERREIRASATANASLIGANDO",
+      "text": "Então deve ser o Satanás que ta ligando"
+    },
+    {
+      "side": "a",
+      "code": "!SEUFERREIRACAPETACRUZANDOLINHA",
+      "text": "Deve ser o capeta que ta cruzando a linha!"
+    },
+    {
+      "side": "b",
+      "code": "!SEUFERREIRAEM",
+      "text": "Hein?"
+    }
+  ]
+];
+
+export type CallId = "bety" | "ivone";
+/** A prank call: its lines and the script to recreate it. The first speaker is the one who answers. */
+export type Call = {
+  id: CallId;
+  speakers: Speaker[];
+  randoms: RandomCheat[];
+  lines: CallLine[];
+  script: ScriptLine[][];
+};
+
+export const calls: Call[] = [
+  { id: "bety", speakers: ["bety", "fernanda"], randoms: betyRandom, lines: betyLines, script: cloneScript },
+  { id: "ivone", speakers: ["ivone", "seuferreira"], randoms: ivoneRandom, lines: ivoneLines, script: ivoneScript },
 ];
