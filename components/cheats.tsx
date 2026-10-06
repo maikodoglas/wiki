@@ -2,15 +2,8 @@
 
 import { Ban, Check, Copy, Dices, Lock, Mic, RotateCcw, SkipForward } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  betyLines,
-  betyRandom,
-  cloneScript,
-  soundCheats,
-  type ScriptLine,
-  type Speaker,
-} from "@/lib/cheats";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
+import { calls, soundCheats, type CallId, type ScriptLine, type Speaker } from "@/lib/cheats";
 import { ui, type Dictionary, type Locale } from "@/lib/i18n";
 import { normalize } from "@/lib/search";
 import redeemImage from "@/public/redeemCheat.jpeg";
@@ -32,13 +25,25 @@ const accent = {
   sounds: "#22d3ee",
   bety: "#ff4fa3",
   fernanda: "#fb923c",
+  ivone: "#facc15",
+  seuferreira: "#f87171",
   clone: "#a970ff",
   cloneSide: "#4ade80",
 };
 
 const withAccent = (color: string) => ({ "--accent": color }) as React.CSSProperties;
 
-const speakerName: Record<Speaker, string> = { bety: "Bety", fernanda: "Fernanda" };
+const speakerName: Record<Speaker, string> = {
+  bety: "Bety",
+  fernanda: "Fernanda",
+  ivone: "Ivone",
+  seuferreira: "Seu Ferreira",
+};
+
+const callLines = calls.flatMap((call) => call.lines);
+const speakerOf = new Map(callLines.map((line) => [line.code, line.speaker]));
+const lineTotal = calls.reduce((n, call) => n + call.lines.length + call.randoms.length, 0);
+const actTotal = calls.reduce((n, call) => n + call.script.length, 0);
 
 function matcher(query: string) {
   const terms = normalize(query).split(/\s+/).filter(Boolean);
@@ -52,18 +57,30 @@ export function Cheats({ lang }: { lang: Locale }) {
   const t = ui[lang];
   const { query, setQuery, deferredQuery, searchRef } = usePageSearch(lang);
   const { toast, onCopy } = useCopy();
-  const [speaker, setSpeaker] = useState<Speaker | "all">("all");
+  const [speaker, setSpeaker] = useState<Record<CallId, Speaker | "all">>({ bety: "all", ivone: "all" });
 
   const searching = deferredQuery.trim().length > 0;
 
-  const { sounds, randoms, lines } = useMemo(() => {
+  const { sounds, packs } = useMemo(() => {
     const match = matcher(deferredQuery);
     return {
       sounds: soundCheats.map((code, i) => ({ code, i })).filter(({ code }) => match(code)),
-      randoms: betyRandom.filter((r) => match(r.code, r.desc[lang])),
-      lines: betyLines
-        .map((line, i) => ({ ...line, i }))
-        .filter((l) => (speaker === "all" || l.speaker === speaker) && match(l.code, l.text, l.speaker)),
+      packs: calls.map((call, n) => {
+        const filter = speaker[call.id];
+        const randoms = call.randoms.filter((r) => match(r.code, r.desc[lang]));
+        const lines = call.lines
+          .map((line, i) => ({ ...line, i }))
+          .filter((l) => (filter === "all" || l.speaker === filter) && match(l.code, l.text, l.speaker));
+        return {
+          call,
+          randoms,
+          lines,
+          filter,
+          index: 2 + n * 2,
+          color: accent[call.speakers[0]],
+          show: randoms.length + lines.length > 0 || filter !== "all",
+        };
+      }),
     };
   }, [deferredQuery, lang, speaker]);
 
@@ -71,14 +88,16 @@ export function Cheats({ lang }: { lang: Locale }) {
 
   const sections = [
     { id: "sons", title: t.soundTitle, count: sounds.length, color: accent.sounds, show: sounds.length > 0 },
-    {
-      id: "bety",
-      title: t.betyTitle,
-      count: randoms.length + lines.length,
-      color: accent.bety,
-      show: randoms.length + lines.length > 0 || speaker !== "all",
-    },
-    { id: "clone", title: t.cloneTitle, count: cloneScript.length, color: accent.clone, show: !searching },
+    ...packs.flatMap(({ call, randoms, lines, color, show }) => [
+      { id: call.id, title: t[`${call.id}Title`], count: randoms.length + lines.length, color, show },
+      {
+        id: `${call.id}-clone`,
+        title: t[`${call.id}CloneTitle`],
+        count: call.script.length,
+        color: accent.clone,
+        show: !searching,
+      },
+    ]),
   ].filter((s) => s.show);
 
   return (
@@ -109,8 +128,8 @@ export function Cheats({ lang }: { lang: Locale }) {
 
             <div className="mt-6 grid grid-cols-3 gap-3 sm:max-w-md">
               <Stat value={soundCheats.length} label={t.statCheats} />
-              <Stat value={betyLines.length + betyRandom.length} label={t.statLines} />
-              <Stat value={cloneScript.length} label={t.statScript} />
+              <Stat value={lineTotal} label={t.statLines} />
+              <Stat value={actTotal} label={t.statScript} />
             </div>
           </div>
 
@@ -191,118 +210,130 @@ export function Cheats({ lang }: { lang: Locale }) {
             </section>
           )}
 
-          {sections.some((s) => s.id === "bety") && (
-            <section id="bety" style={withAccent(accent.bety)}>
-              <SectionHeader
-                index={2}
-                id="bety"
-                title={t.betyTitle}
-                meta={t.lineCount(randoms.length + lines.length)}
-                desc={t.betyDesc}
-              />
+          {packs.map(({ call, randoms, lines, filter, index, color, show }) => (
+            <Fragment key={call.id}>
+              {show && (
+                <section id={call.id} style={withAccent(color)}>
+                  <SectionHeader
+                    index={index}
+                    id={call.id}
+                    title={t[`${call.id}Title`]}
+                    meta={t.lineCount(randoms.length + lines.length)}
+                    desc={t[`${call.id}Desc`]}
+                  />
 
-              {randoms.length > 0 && (
-                <div className="mb-8 grid gap-3 sm:grid-cols-3">
-                  {randoms.map((r) => (
-                    <button
-                      key={r.code}
-                      type="button"
-                      onClick={() => copyCheat(r.code)}
-                      className="hud-hover group text-left"
-                    >
-                      <div className="hud cut h-full">
-                        <div className="hud-inner cut flex flex-col gap-2 bg-[linear-gradient(135deg,color-mix(in_srgb,var(--accent)_16%,transparent),transparent_70%)] p-4">
-                          <span className="hud-label flex items-center gap-1.5 text-[0.62rem] text-[var(--accent)]">
-                            <Dices className="size-3.5" />
-                            {t.betyRandomTitle}
-                          </span>
-                          <span className="flex items-center gap-2 font-mono text-base font-bold text-white">
-                            <span className="min-w-0 flex-1 break-all">
-                              <span className="glow-accent">!</span>
-                              <Highlight text={r.code.slice(1)} query={deferredQuery} />
-                            </span>
-                            <Copy className="size-3.5 shrink-0 text-white/25 transition-colors group-hover:text-[var(--accent)]" />
-                          </span>
-                          <span className="text-sm text-white/60">{r.desc[lang]}</span>
-                        </div>
-                      </div>
-                    </button>
-                  ))}
-                </div>
+                  {randoms.length > 0 && (
+                    <div className="mb-8 grid gap-3 sm:grid-cols-3">
+                      {randoms.map((r) => (
+                        <button
+                          key={r.code}
+                          type="button"
+                          onClick={() => copyCheat(r.code)}
+                          className="hud-hover group text-left"
+                        >
+                          <div className="hud cut h-full">
+                            <div className="hud-inner cut flex flex-col gap-2 bg-[linear-gradient(135deg,color-mix(in_srgb,var(--accent)_16%,transparent),transparent_70%)] p-4">
+                              <span className="hud-label flex items-center gap-1.5 text-[0.62rem] text-[var(--accent)]">
+                                <Dices className="size-3.5" />
+                                {t.betyRandomTitle}
+                              </span>
+                              <span className="flex items-center gap-2 font-mono text-base font-bold text-white">
+                                <span className="min-w-0 flex-1 break-all">
+                                  <span className="glow-accent">!</span>
+                                  <Highlight text={r.code.slice(1)} query={deferredQuery} />
+                                </span>
+                                <Copy className="size-3.5 shrink-0 text-white/25 transition-colors group-hover:text-[var(--accent)]" />
+                              </span>
+                              <span className="text-sm text-white/60">{r.desc[lang]}</span>
+                            </div>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  <div role="group" className="mb-5 flex flex-wrap gap-2">
+                    {(["all", ...call.speakers] as const).map((s) => (
+                      <button
+                        key={s}
+                        type="button"
+                        aria-pressed={filter === s}
+                        data-active={filter === s}
+                        onClick={() => setSpeaker((prev) => ({ ...prev, [call.id]: s }))}
+                        style={withAccent(s === "all" ? color : accent[s])}
+                        className="chip cut cut-sm font-display text-sm font-semibold tracking-wide text-white/65 uppercase"
+                      >
+                        {s === "all" ? t.filterAll : speakerName[s]}
+                      </button>
+                    ))}
+                  </div>
+
+                  {lines.length === 0 ? (
+                    <EmptyState t={t} onClear={() => setQuery("")} />
+                  ) : (
+                    <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+                      {lines.map((line) => (
+                        <button
+                          key={line.code}
+                          id={`${call.id}-${line.i}`}
+                          data-anchor
+                          type="button"
+                          onClick={() => copyCheat(line.code)}
+                          style={withAccent(accent[line.speaker])}
+                          className="hud-hover group text-left"
+                        >
+                          <div className="hud cut h-full">
+                            <div className="hud-inner cut flex h-full flex-col gap-2 p-4">
+                              <span className="flex items-center gap-2">
+                                <span className="min-w-0 flex-1 font-mono text-[0.92rem] font-bold break-all text-white">
+                                  <span className="glow-accent">!</span>
+                                  <Highlight text={line.code.slice(1)} query={deferredQuery} />
+                                </span>
+                                <span className="hud-label shrink-0 bg-[color-mix(in_srgb,var(--accent)_16%,transparent)] px-1.5 py-0.5 text-[0.58rem] text-[var(--accent)]">
+                                  {speakerName[line.speaker]}
+                                </span>
+                                <Copy className="size-3.5 shrink-0 text-white/25 transition-colors group-hover:text-[var(--accent)]" />
+                              </span>
+                              <span className="text-[0.92rem] leading-relaxed text-white/70">
+                                <span className="text-[var(--accent)]">“</span>
+                                <Highlight text={line.text} query={deferredQuery} />
+                                <span className="text-[var(--accent)]">”</span>
+                              </span>
+                            </div>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </section>
               )}
 
-              <div role="group" className="mb-5 flex flex-wrap gap-2">
-                {(["all", "bety", "fernanda"] as const).map((s) => (
-                  <button
-                    key={s}
-                    type="button"
-                    aria-pressed={speaker === s}
-                    data-active={speaker === s}
-                    onClick={() => setSpeaker(s)}
-                    style={withAccent(s === "fernanda" ? accent.fernanda : accent.bety)}
-                    className="chip cut cut-sm font-display text-sm font-semibold tracking-wide text-white/65 uppercase"
-                  >
-                    {s === "all" ? t.filterAll : speakerName[s]}
-                  </button>
-                ))}
-              </div>
-
-              {lines.length === 0 ? (
-                <EmptyState t={t} onClear={() => setQuery("")} />
-              ) : (
-                <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-                  {lines.map((line) => (
-                    <button
-                      key={line.code}
-                      id={`b-${line.i}`}
-                      data-anchor
-                      type="button"
-                      onClick={() => copyCheat(line.code)}
-                      style={withAccent(accent[line.speaker])}
-                      className="hud-hover group text-left"
-                    >
-                      <div className="hud cut h-full">
-                        <div className="hud-inner cut flex h-full flex-col gap-2 p-4">
-                          <span className="flex items-center gap-2">
-                            <span className="min-w-0 flex-1 font-mono text-[0.92rem] font-bold break-all text-white">
-                              <span className="glow-accent">!</span>
-                              <Highlight text={line.code.slice(1)} query={deferredQuery} />
-                            </span>
-                            <span className="hud-label shrink-0 bg-[color-mix(in_srgb,var(--accent)_16%,transparent)] px-1.5 py-0.5 text-[0.58rem] text-[var(--accent)]">
-                              {speakerName[line.speaker]}
-                            </span>
-                            <Copy className="size-3.5 shrink-0 text-white/25 transition-colors group-hover:text-[var(--accent)]" />
-                          </span>
-                          <span className="text-[0.92rem] leading-relaxed text-white/70">
-                            <span className="text-[var(--accent)]">“</span>
-                            <Highlight text={line.text} query={deferredQuery} />
-                            <span className="text-[var(--accent)]">”</span>
-                          </span>
-                        </div>
-                      </div>
-                    </button>
-                  ))}
-                </div>
+              {!searching && (
+                <section id={`${call.id}-clone`} style={withAccent(accent.clone)}>
+                  <SectionHeader
+                    index={index + 1}
+                    id={`${call.id}-clone`}
+                    title={t[`${call.id}CloneTitle`]}
+                    meta={t.cheatCount(call.script.flat().filter((l) => l.code).length)}
+                    desc={t.cloneDesc}
+                  />
+                  <div className="flex flex-col gap-14">
+                    {call.script.map((act, a) => (
+                      <CloneAct
+                        key={a}
+                        id={`${call.id}-clone-${a}`}
+                        act={act}
+                        index={a}
+                        lead={call.speakers[0]}
+                        t={t}
+                        onCopy={onCopy}
+                      />
+                    ))}
+                  </div>
+                </section>
               )}
-            </section>
-          )}
-
-          {!searching && (
-            <section id="clone" style={withAccent(accent.clone)}>
-              <SectionHeader
-                index={3}
-                id="clone"
-                title={t.cloneTitle}
-                meta={t.cheatCount(cloneScript.flat().filter((l) => l.code).length)}
-                desc={t.cloneDesc}
-              />
-              <div className="flex flex-col gap-14">
-                {cloneScript.map((act, a) => (
-                  <CloneAct key={a} act={act} index={a} t={t} onCopy={onCopy} />
-                ))}
-              </div>
-            </section>
-          )}
+            </Fragment>
+          ))}
         </div>
       </main>
 
@@ -395,13 +426,18 @@ function SectionHeader({
 }
 
 function CloneAct({
+  id,
   act,
   index,
+  lead,
   t,
   onCopy,
 }: {
+  id: string;
   act: ScriptLine[];
   index: number;
+  /** Who speaks the lines that have no cheat of their own. */
+  lead: Speaker;
   t: Dictionary;
   onCopy: OnCopy;
 }) {
@@ -423,7 +459,7 @@ function CloneAct({
     copyLine(next);
     const after = cheatIdx.find((i) => i > next && !done.has(i));
     if (after !== undefined) {
-      document.getElementById(`c-${index}-${after}`)?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      document.getElementById(`${id}-${after}`)?.scrollIntoView({ block: "nearest", behavior: "smooth" });
     }
   };
 
@@ -473,8 +509,9 @@ function CloneAct({
         {act.map((line, i) => (
           <ScriptBubble
             key={i}
-            id={`c-${index}-${i}`}
+            id={`${id}-${i}`}
             line={line}
+            lead={lead}
             t={t}
             isNext={i === next}
             isDone={done.has(i)}
@@ -489,6 +526,7 @@ function CloneAct({
 function ScriptBubble({
   id,
   line,
+  lead,
   t,
   isNext,
   isDone,
@@ -496,14 +534,16 @@ function ScriptBubble({
 }: {
   id: string;
   line: ScriptLine;
+  lead: Speaker;
   t: Dictionary;
   isNext: boolean;
   isDone: boolean;
   onUse: () => void;
 }) {
   const clone = line.side === "b";
-  const color = clone ? accent.cloneSide : line.code?.startsWith("!FERNANDA") ? accent.fernanda : accent.bety;
-  const name = clone ? t.cloneSide : line.code?.startsWith("!FERNANDA") ? "Fernanda" : "Bety";
+  const speaker = (line.code && speakerOf.get(line.code)) || lead;
+  const color = clone ? accent.cloneSide : accent[speaker];
+  const name = clone ? t.cloneSide : speakerName[speaker];
 
   return (
     <li
@@ -561,7 +601,7 @@ function ScriptBubble({
 
 /** Decorative terminal that "activates" random cheats. */
 function CheatConsole({ t }: { t: Dictionary }) {
-  const pool = useRef([...soundCheats, ...betyLines.map((l) => l.code)]);
+  const pool = useRef([...soundCheats, ...callLines.map((l) => l.code)]);
   const [log, setLog] = useState(() =>
     ["!TOASTY", "!FATALITY", "!BONK", "!WINDOWSXP", "!BETYALO"].map((code, i) => ({ id: i, code })),
   );
